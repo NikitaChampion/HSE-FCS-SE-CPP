@@ -4,8 +4,8 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/Users/nikitaigumnov/CLionProjects/big_integer/big_int.cpp" "/Users/nikitaigumnov/CLionProjects/big_integer/cmake-build-debug/CMakeFiles/big_integer.dir/big_int.cpp.o"
-  "/Users/nikitaigumnov/CLionProjects/big_integer/main.cpp" "/Users/nikitaigumnov/CLionProjects/big_integer/cmake-build-debug/CMakeFiles/big_integer.dir/main.cpp.o"
+  "/Users/nikitaigumnov/CLionProjects/big_integer/big_integer_lib/big_int.cpp" "/Users/nikitaigumnov/CLionProjects/big_integer/cmake-build-debug/CMakeFiles/big_integer.dir/big_integer_lib/big_int.cpp.o"
+  "/Users/nikitaigumnov/CLionProjects/big_integer/tests.cpp" "/Users/nikitaigumnov/CLionProjects/big_integer/cmake-build-debug/CMakeFiles/big_integer.dir/tests.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "AppleClang")
 

@@ -76,42 +76,42 @@ include CMakeFiles/big_integer.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/big_integer.dir/flags.make
 
-CMakeFiles/big_integer.dir/main.cpp.o: CMakeFiles/big_integer.dir/flags.make
-CMakeFiles/big_integer.dir/main.cpp.o: ../main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/nikitaigumnov/CLionProjects/big_integer/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/big_integer.dir/main.cpp.o"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/big_integer.dir/main.cpp.o -c /Users/nikitaigumnov/CLionProjects/big_integer/main.cpp
+CMakeFiles/big_integer.dir/tests.cpp.o: CMakeFiles/big_integer.dir/flags.make
+CMakeFiles/big_integer.dir/tests.cpp.o: ../tests.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/nikitaigumnov/CLionProjects/big_integer/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/big_integer.dir/tests.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/big_integer.dir/tests.cpp.o -c /Users/nikitaigumnov/CLionProjects/big_integer/tests.cpp
 
-CMakeFiles/big_integer.dir/main.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/big_integer.dir/main.cpp.i"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/nikitaigumnov/CLionProjects/big_integer/main.cpp > CMakeFiles/big_integer.dir/main.cpp.i
+CMakeFiles/big_integer.dir/tests.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/big_integer.dir/tests.cpp.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/nikitaigumnov/CLionProjects/big_integer/tests.cpp > CMakeFiles/big_integer.dir/tests.cpp.i
 
-CMakeFiles/big_integer.dir/main.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/big_integer.dir/main.cpp.s"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/nikitaigumnov/CLionProjects/big_integer/main.cpp -o CMakeFiles/big_integer.dir/main.cpp.s
+CMakeFiles/big_integer.dir/tests.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/big_integer.dir/tests.cpp.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/nikitaigumnov/CLionProjects/big_integer/tests.cpp -o CMakeFiles/big_integer.dir/tests.cpp.s
 
-CMakeFiles/big_integer.dir/big_int.cpp.o: CMakeFiles/big_integer.dir/flags.make
-CMakeFiles/big_integer.dir/big_int.cpp.o: ../big_int.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/nikitaigumnov/CLionProjects/big_integer/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/big_integer.dir/big_int.cpp.o"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/big_integer.dir/big_int.cpp.o -c /Users/nikitaigumnov/CLionProjects/big_integer/big_int.cpp
+CMakeFiles/big_integer.dir/big_integer_lib/big_int.cpp.o: CMakeFiles/big_integer.dir/flags.make
+CMakeFiles/big_integer.dir/big_integer_lib/big_int.cpp.o: ../big_integer_lib/big_int.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/nikitaigumnov/CLionProjects/big_integer/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/big_integer.dir/big_integer_lib/big_int.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/big_integer.dir/big_integer_lib/big_int.cpp.o -c /Users/nikitaigumnov/CLionProjects/big_integer/big_integer_lib/big_int.cpp
 
-CMakeFiles/big_integer.dir/big_int.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/big_integer.dir/big_int.cpp.i"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/nikitaigumnov/CLionProjects/big_integer/big_int.cpp > CMakeFiles/big_integer.dir/big_int.cpp.i
+CMakeFiles/big_integer.dir/big_integer_lib/big_int.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/big_integer.dir/big_integer_lib/big_int.cpp.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/nikitaigumnov/CLionProjects/big_integer/big_integer_lib/big_int.cpp > CMakeFiles/big_integer.dir/big_integer_lib/big_int.cpp.i
 
-CMakeFiles/big_integer.dir/big_int.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/big_integer.dir/big_int.cpp.s"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/nikitaigumnov/CLionProjects/big_integer/big_int.cpp -o CMakeFiles/big_integer.dir/big_int.cpp.s
+CMakeFiles/big_integer.dir/big_integer_lib/big_int.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/big_integer.dir/big_integer_lib/big_int.cpp.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/nikitaigumnov/CLionProjects/big_integer/big_integer_lib/big_int.cpp -o CMakeFiles/big_integer.dir/big_integer_lib/big_int.cpp.s
 
 # Object files for target big_integer
 big_integer_OBJECTS = \
-"CMakeFiles/big_integer.dir/main.cpp.o" \
-"CMakeFiles/big_integer.dir/big_int.cpp.o"
+"CMakeFiles/big_integer.dir/tests.cpp.o" \
+"CMakeFiles/big_integer.dir/big_integer_lib/big_int.cpp.o"
 
 # External object files for target big_integer
 big_integer_EXTERNAL_OBJECTS =
 
-big_integer: CMakeFiles/big_integer.dir/main.cpp.o
-big_integer: CMakeFiles/big_integer.dir/big_int.cpp.o
+big_integer: CMakeFiles/big_integer.dir/tests.cpp.o
+big_integer: CMakeFiles/big_integer.dir/big_integer_lib/big_int.cpp.o
 big_integer: CMakeFiles/big_integer.dir/build.make
 big_integer: CMakeFiles/big_integer.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/nikitaigumnov/CLionProjects/big_integer/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable big_integer"

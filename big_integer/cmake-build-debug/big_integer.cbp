@@ -80,13 +80,13 @@
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/Users/nikitaigumnov/CLionProjects/big_integer/big_int.cpp">
+		<Unit filename="/Users/nikitaigumnov/CLionProjects/big_integer/big_integer_lib/big_int.cpp">
 			<Option target="big_integer"/>
 		</Unit>
-		<Unit filename="/Users/nikitaigumnov/CLionProjects/big_integer/big_int.h">
+		<Unit filename="/Users/nikitaigumnov/CLionProjects/big_integer/big_integer_lib/big_int.h">
 			<Option target="big_integer"/>
 		</Unit>
-		<Unit filename="/Users/nikitaigumnov/CLionProjects/big_integer/main.cpp">
+		<Unit filename="/Users/nikitaigumnov/CLionProjects/big_integer/tests.cpp">
 			<Option target="big_integer"/>
 		</Unit>
 		<Unit filename="/Users/nikitaigumnov/CLionProjects/big_integer/CMakeLists.txt">

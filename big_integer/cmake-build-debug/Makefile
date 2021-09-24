@@ -142,59 +142,59 @@ big_integer/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/big_integer.dir/build.make CMakeFiles/big_integer.dir/build
 .PHONY : big_integer/fast
 
-big_int.o: big_int.cpp.o
+big_integer_lib/big_int.o: big_integer_lib/big_int.cpp.o
 
-.PHONY : big_int.o
-
-# target to build an object file
-big_int.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/big_integer.dir/build.make CMakeFiles/big_integer.dir/big_int.cpp.o
-.PHONY : big_int.cpp.o
-
-big_int.i: big_int.cpp.i
-
-.PHONY : big_int.i
-
-# target to preprocess a source file
-big_int.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/big_integer.dir/build.make CMakeFiles/big_integer.dir/big_int.cpp.i
-.PHONY : big_int.cpp.i
-
-big_int.s: big_int.cpp.s
-
-.PHONY : big_int.s
-
-# target to generate assembly for a file
-big_int.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/big_integer.dir/build.make CMakeFiles/big_integer.dir/big_int.cpp.s
-.PHONY : big_int.cpp.s
-
-main.o: main.cpp.o
-
-.PHONY : main.o
+.PHONY : big_integer_lib/big_int.o
 
 # target to build an object file
-main.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/big_integer.dir/build.make CMakeFiles/big_integer.dir/main.cpp.o
-.PHONY : main.cpp.o
+big_integer_lib/big_int.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/big_integer.dir/build.make CMakeFiles/big_integer.dir/big_integer_lib/big_int.cpp.o
+.PHONY : big_integer_lib/big_int.cpp.o
 
-main.i: main.cpp.i
+big_integer_lib/big_int.i: big_integer_lib/big_int.cpp.i
 
-.PHONY : main.i
+.PHONY : big_integer_lib/big_int.i
 
 # target to preprocess a source file
-main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/big_integer.dir/build.make CMakeFiles/big_integer.dir/main.cpp.i
-.PHONY : main.cpp.i
+big_integer_lib/big_int.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/big_integer.dir/build.make CMakeFiles/big_integer.dir/big_integer_lib/big_int.cpp.i
+.PHONY : big_integer_lib/big_int.cpp.i
 
-main.s: main.cpp.s
+big_integer_lib/big_int.s: big_integer_lib/big_int.cpp.s
 
-.PHONY : main.s
+.PHONY : big_integer_lib/big_int.s
 
 # target to generate assembly for a file
-main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/big_integer.dir/build.make CMakeFiles/big_integer.dir/main.cpp.s
-.PHONY : main.cpp.s
+big_integer_lib/big_int.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/big_integer.dir/build.make CMakeFiles/big_integer.dir/big_integer_lib/big_int.cpp.s
+.PHONY : big_integer_lib/big_int.cpp.s
+
+tests.o: tests.cpp.o
+
+.PHONY : tests.o
+
+# target to build an object file
+tests.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/big_integer.dir/build.make CMakeFiles/big_integer.dir/tests.cpp.o
+.PHONY : tests.cpp.o
+
+tests.i: tests.cpp.i
+
+.PHONY : tests.i
+
+# target to preprocess a source file
+tests.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/big_integer.dir/build.make CMakeFiles/big_integer.dir/tests.cpp.i
+.PHONY : tests.cpp.i
+
+tests.s: tests.cpp.s
+
+.PHONY : tests.s
+
+# target to generate assembly for a file
+tests.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/big_integer.dir/build.make CMakeFiles/big_integer.dir/tests.cpp.s
+.PHONY : tests.cpp.s
 
 # Help Target
 help:
@@ -205,12 +205,12 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... big_integer"
-	@echo "... big_int.o"
-	@echo "... big_int.i"
-	@echo "... big_int.s"
-	@echo "... main.o"
-	@echo "... main.i"
-	@echo "... main.s"
+	@echo "... big_integer_lib/big_int.o"
+	@echo "... big_integer_lib/big_int.i"
+	@echo "... big_integer_lib/big_int.s"
+	@echo "... tests.o"
+	@echo "... tests.i"
+	@echo "... tests.s"
 .PHONY : help
 
 

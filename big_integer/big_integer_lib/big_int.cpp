@@ -56,7 +56,7 @@ void BigInt::Read(const std::string& str) {
     Trim();
 }
 
-BigInt BigInt::Abs() const {
+BigInt BigInt::abs() const {
     BigInt result = *this;
     result.sign_ = 1;
     return result;
@@ -93,160 +93,6 @@ BigInt::BigInt(uint64_t number) {
 }
 
 /*
-    Unary arithmetic operators
-*/
-
-BigInt BigInt::operator+() const {
-    return *this;
-}
-
-BigInt BigInt::operator-() const {
-    BigInt temp;
-    if (!digits_.empty()) {
-        temp.sign_ = -sign_;
-    } else {
-        temp.sign_ = 1;
-    }
-    temp.digits_ = digits_;
-    return temp;
-}
-
-/*
-    Relational operators; All operators depend on the '<' and/or '==' operator(s).
-*/
-
-bool BigInt::operator<(const BigInt& number) const {
-    if (sign_ != number.sign_) {
-        return sign_ == -1;
-    }
-    if (digits_.size() != number.digits_.size()) {
-        return digits_.size() * sign_ < number.digits_.size() * sign_;
-    }
-    for (int i = digits_.size() - 1; i >= 0; --i) {
-        if (digits_[i] != number.digits_[i]) {
-            return digits_[i] * sign_ < number.digits_[i] * sign_;
-        }
-    }
-    return false;
-}
-
-bool BigInt::operator>(const BigInt& number) const {
-    return number < *this;
-}
-
-bool BigInt::operator<=(const BigInt& number) const {
-    return !(number < *this);
-}
-
-bool BigInt::operator>=(const BigInt& number) const {
-    return !(*this < number);
-}
-
-bool BigInt::operator==(const BigInt& number) const {
-    return !(*this < number) && !(number < *this);
-}
-
-bool BigInt::operator!=(const BigInt& number) const {
-    return *this < number || number < *this;
-}
-
-bool BigInt::operator<(const std::string& number) const {
-    return *this < BigInt(number);
-}
-
-bool operator<(const std::string& lhs, const BigInt& rhs) {
-    return BigInt(lhs) < rhs;
-}
-
-bool BigInt::operator>(const std::string& number) const {
-    return *this > BigInt(number);
-}
-
-bool operator>(const std::string& lhs, const BigInt& rhs) {
-    return BigInt(lhs) > rhs;
-}
-
-bool BigInt::operator<=(const std::string& number) const {
-    return *this <= BigInt(number);
-}
-
-bool operator<=(const std::string& lhs, const BigInt& rhs) {
-    return BigInt(lhs) <= rhs;
-}
-
-bool BigInt::operator>=(const std::string& number) const {
-    return *this >= BigInt(number);
-}
-
-bool operator>=(const std::string& lhs, const BigInt& rhs) {
-    return BigInt(lhs) >= rhs;
-}
-
-bool BigInt::operator==(const std::string& number) const {
-    return *this == BigInt(number);
-}
-
-bool operator==(const std::string& lhs, const BigInt& rhs) {
-    return BigInt(lhs) == rhs;
-}
-
-bool BigInt::operator!=(const std::string& number) const {
-    return *this != BigInt(number);
-}
-
-bool operator!=(const std::string& lhs, const BigInt& rhs) {
-    return BigInt(lhs) != rhs;
-}
-
-bool BigInt::operator<(int64_t number) const {
-    return *this < BigInt(number);
-}
-
-bool operator<(int64_t lhs, const BigInt& rhs) {
-    return BigInt(lhs) < rhs;
-}
-
-bool BigInt::operator>(int64_t number) const {
-    return *this > BigInt(number);
-}
-
-bool operator>(int64_t lhs, const BigInt& rhs) {
-    return BigInt(lhs) > rhs;
-}
-
-bool BigInt::operator<=(int64_t number) const {
-    return *this <= BigInt(number);
-}
-
-bool operator<=(int64_t lhs, const BigInt& rhs) {
-    return BigInt(lhs) <= rhs;
-}
-
-bool BigInt::operator>=(int64_t number) const {
-    return *this >= BigInt(number);
-}
-
-bool operator>=(int64_t lhs, const BigInt& rhs) {
-    return BigInt(lhs) >= rhs;
-}
-
-bool BigInt::operator==(int64_t number) const {
-    return *this == BigInt(number);
-}
-
-bool operator==(int64_t lhs, const BigInt& rhs) {
-    return BigInt(lhs) == rhs;
-}
-
-bool BigInt::operator!=(int64_t number) const {
-    return *this != BigInt(number);
-}
-
-bool operator!=(int64_t lhs, const BigInt& rhs) {
-    return BigInt(lhs) != rhs;
-}
-
-/*
     Assignment operators
 */
 
@@ -254,10 +100,6 @@ BigInt& BigInt::operator=(const BigInt& number) {
     sign_ = number.sign_;
     digits_ = number.digits_;
     return *this;
-}
-
-BigInt& BigInt::operator=(const std::string& num) {
-    return *this = BigInt(num);
 }
 
 BigInt& BigInt::operator=(int64_t number) {
@@ -283,24 +125,22 @@ BigInt& BigInt::operator=(uint64_t number) {
 }
 
 /*
-    I/O stream operators
+    Unary arithmetic operators
 */
-std::istream& operator>>(std::istream& in, BigInt& number) {
-    std::string input;
-    in >> input;
-    number.Read(input);
-    return in;
+
+BigInt BigInt::operator+() const {
+    return *this;
 }
 
-std::ostream& operator<<(std::ostream& out, const BigInt& number) {
-    if (number.sign_ == -1) {
-        out << '-';
+BigInt BigInt::operator-() const {
+    BigInt temp;
+    if (!digits_.empty()) {
+        temp.sign_ = -sign_;
+    } else {
+        temp.sign_ = 1;
     }
-    out << (number.digits_.empty() ? 0 : number.digits_.back());
-    for (int i = static_cast<int>(number.digits_.size()) - 2; i >= 0; --i) {
-        out << std::setw(number.kBaseDigits) << std::setfill('0') << number.digits_[i];
-    }
-    return out;
+    temp.digits_ = digits_;
+    return temp;
 }
 
 /*
@@ -358,7 +198,7 @@ BigInt BigInt::operator-(const BigInt& number) const {
     if (sign_ != number.sign_) {
         return *this + (-number);
     }
-    if (Abs() >= number.Abs()) {
+    if (abs() >= number.abs()) {
         BigInt result = *this;
         for (int i = 0, carry = 0; i < static_cast<int>(number.digits_.size()) || carry; ++i) {
             result.digits_[i] -=
@@ -407,37 +247,145 @@ BigInt operator-(int64_t lhs, const BigInt& rhs) {
 }
 
 /*
+    Relational operators; All operators depend on the '<' operator.
+*/
+
+bool BigInt::operator<(const BigInt& number) const {
+    if (sign_ != number.sign_) {
+        return sign_ == -1;
+    }
+    if (digits_.size() != number.digits_.size()) {
+        return digits_.size() * sign_ < number.digits_.size() * sign_;
+    }
+    for (int i = digits_.size() - 1; i >= 0; --i) {
+        if (digits_[i] != number.digits_[i]) {
+            return digits_[i] * sign_ < number.digits_[i] * sign_;
+        }
+    }
+    return false;
+}
+
+bool BigInt::operator>(const BigInt& number) const {
+    return number < *this;
+}
+
+bool BigInt::operator<=(const BigInt& number) const {
+    return !(number < *this);
+}
+
+bool BigInt::operator>=(const BigInt& number) const {
+    return !(*this < number);
+}
+
+bool BigInt::operator==(const BigInt& number) const {
+    return !(*this < number) && !(number < *this);
+}
+
+bool BigInt::operator!=(const BigInt& number) const {
+    return *this < number || number < *this;
+}
+
+bool BigInt::operator<(int64_t number) const {
+    return *this < BigInt(number);
+}
+
+bool operator<(int64_t lhs, const BigInt& rhs) {
+    return BigInt(lhs) < rhs;
+}
+
+bool BigInt::operator>(int64_t number) const {
+    return *this > BigInt(number);
+}
+
+bool operator>(int64_t lhs, const BigInt& rhs) {
+    return BigInt(lhs) > rhs;
+}
+
+bool BigInt::operator<=(int64_t number) const {
+    return *this <= BigInt(number);
+}
+
+bool operator<=(int64_t lhs, const BigInt& rhs) {
+    return BigInt(lhs) <= rhs;
+}
+
+bool BigInt::operator>=(int64_t number) const {
+    return *this >= BigInt(number);
+}
+
+bool operator>=(int64_t lhs, const BigInt& rhs) {
+    return BigInt(lhs) >= rhs;
+}
+
+bool BigInt::operator==(int64_t number) const {
+    return *this == BigInt(number);
+}
+
+bool operator==(int64_t lhs, const BigInt& rhs) {
+    return BigInt(lhs) == rhs;
+}
+
+bool BigInt::operator!=(int64_t number) const {
+    return *this != BigInt(number);
+}
+
+bool operator!=(int64_t lhs, const BigInt& rhs) {
+    return BigInt(lhs) != rhs;
+}
+
+/*
+    I/O stream operators
+*/
+std::istream& operator>>(std::istream& in, BigInt& number) {
+    std::string input;
+    in >> input;
+    number.Read(input);
+    return in;
+}
+
+std::ostream& operator<<(std::ostream& out, const BigInt& number) {
+    if (number.sign_ == -1) {
+        out << '-';
+    }
+    out << (number.digits_.empty() ? 0 : number.digits_.back());
+    for (int i = static_cast<int>(number.digits_.size()) - 2; i >= 0; --i) {
+        out << std::setw(number.kBaseDigits) << std::setfill('0') << number.digits_[i];
+    }
+    return out;
+}
+
+/*
     Conversion functions for BigInt
 */
 
-std::string BigInt::to_string() const {
+std::string BigInt::to_string(const BigInt& number) {
     std::stringstream ss;
-    ss << *this;
+    ss << number;
     std::string s;
     ss >> s;
     return s;
 }
 
-int BigInt::to_int() const {
+int BigInt::to_int(const BigInt& number) {
     int value = 0;
-    for (int i = digits_.size() - 1; i >= 0; --i) {
-        value = value * kBase + digits_[i];
+    for (int i = number.digits_.size() - 1; i >= 0; --i) {
+        value = value * kBase + number.digits_[i];
     }
-    return value * sign_;
+    return value * number.sign_;
 }
 
-int64_t BigInt::to_int64_t() const {
+int64_t BigInt::to_int64_t(const BigInt& number) {
     int64_t value = 0;
-    for (int i = digits_.size() - 1; i >= 0; --i) {
-        value = value * kBase + digits_[i];
+    for (int i = number.digits_.size() - 1; i >= 0; --i) {
+        value = value * kBase + number.digits_[i];
     }
-    return value * sign_;
+    return value * number.sign_;
 }
 
-uint64_t BigInt::to_uint64_t() const {
+uint64_t BigInt::to_uint64_t(const BigInt& number) {
     uint64_t value = 0;
-    for (int i = digits_.size() - 1; i >= 0; --i) {
-        value = value * kBase + digits_[i];
+    for (int i = number.digits_.size() - 1; i >= 0; --i) {
+        value = value * kBase + number.digits_[i];
     }
     return value;
 }

@@ -1,5 +1,6 @@
 #include <string>
 #include <vector>
+#include <type_traits>
 
 class BigInt {
 public:
@@ -14,21 +15,12 @@ public:
 
     // Assignment operators:
     BigInt& operator=(const BigInt&);
-    BigInt& operator=(const std::string&);
     BigInt& operator=(int64_t);
     BigInt& operator=(uint64_t);
 
     // Unary arithmetic operators:
-    BigInt operator+() const;  // unary +
-    BigInt operator-() const;  // unary -
-
-    // Binary arithmetic operators:
-    BigInt operator+(const BigInt&) const;
-    BigInt operator-(const BigInt&) const;
-    BigInt operator+(const std::string&) const;
-    BigInt operator-(const std::string&) const;
-    BigInt operator+(int64_t) const;
-    BigInt operator-(int64_t) const;
+    BigInt operator+() const;
+    BigInt operator-() const;
 
     // Arithmetic-assignment operators:
     BigInt& operator+=(const BigInt&);
@@ -37,6 +29,14 @@ public:
     BigInt& operator-=(const std::string&);
     BigInt& operator+=(int64_t);
     BigInt& operator-=(int64_t);
+
+    // Binary arithmetic operators:
+    BigInt operator+(const BigInt&) const;
+    BigInt operator-(const BigInt&) const;
+    BigInt operator+(const std::string&) const;
+    BigInt operator-(const std::string&) const;
+    BigInt operator+(int64_t) const;
+    BigInt operator-(int64_t) const;
 
     // Increment and decrement operators:
     BigInt& operator++();    // pre-increment
@@ -51,12 +51,6 @@ public:
     bool operator>=(const BigInt&) const;
     bool operator==(const BigInt&) const;
     bool operator!=(const BigInt&) const;
-    bool operator<(const std::string&) const;
-    bool operator>(const std::string&) const;
-    bool operator<=(const std::string&) const;
-    bool operator>=(const std::string&) const;
-    bool operator==(const std::string&) const;
-    bool operator!=(const std::string&) const;
     bool operator<(int64_t) const;
     bool operator>(int64_t) const;
     bool operator<=(int64_t) const;
@@ -64,15 +58,25 @@ public:
     bool operator==(int64_t) const;
     bool operator!=(int64_t) const;
 
+    friend bool operator<(int64_t, const BigInt&);
+    friend bool operator>(int64_t, const BigInt&);
+    friend bool operator<=(int64_t, const BigInt&);
+    friend bool operator>=(int64_t, const BigInt&);
+    friend bool operator==(int64_t, const BigInt&);
+    friend bool operator!=(int64_t, const BigInt&);
+
     // I/O stream operators:
     friend std::istream& operator>>(std::istream&, BigInt&);
     friend std::ostream& operator<<(std::ostream&, const BigInt&);
 
+    // Math functions:
+    BigInt abs() const;  // NOLINT
+
     // Conversion functions:
-    std::string to_string() const;  // NOLINT
-    int to_int() const;             // NOLINT
-    int64_t to_int64_t() const;     // NOLINT
-    uint64_t to_uint64_t() const;   // NOLINT
+    static std::string to_string(const BigInt& number);  // NOLINT
+    static int to_int(const BigInt& number);             // NOLINT
+    static int64_t to_int64_t(const BigInt& number);     // NOLINT
+    static uint64_t to_uint64_t(const BigInt& number);   // NOLINT
 
 private:
     static const int kBase = 1000000000;
@@ -81,9 +85,9 @@ private:
     int sign_;
     std::vector<int> digits_;
 
+    // Utility functions:
     void Read(const std::string&);
     bool IsValidNumber(const std::string&);
     void Convert(const std::string&);
     void Trim();
-    BigInt Abs() const;
 };
