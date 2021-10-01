@@ -1,3 +1,3 @@
 # HSE-FCS-SE-CPP
 
- - [Домашнее задание №1](./big_integer)
+ - [Домашние задания №1-2](./big_integer)
