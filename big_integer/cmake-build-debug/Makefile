@@ -75,6 +75,52 @@ CMAKE_BINARY_DIR = /Users/nikitaigumnov/CLionProjects/big_integer/cmake-build-de
 #=============================================================================
 # Targets provided globally by CMake.
 
+# Special rule for the target install/local
+install/local: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
+	/Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local
+
+# Special rule for the target install/local
+install/local/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
+	/Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local/fast
+
+# Special rule for the target install/strip
+install/strip: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
+	/Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+.PHONY : install/strip
+
+# Special rule for the target install/strip
+install/strip/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
+	/Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+.PHONY : install/strip/fast
+
+# Special rule for the target install
+install: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
+	/Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -P cmake_install.cmake
+.PHONY : install
+
+# Special rule for the target install
+install/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
+	/Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -P cmake_install.cmake
+.PHONY : install/fast
+
+# Special rule for the target list_install_components
+list_install_components:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
+.PHONY : list_install_components
+
+# Special rule for the target list_install_components
+list_install_components/fast: list_install_components
+
+.PHONY : list_install_components/fast
+
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
@@ -130,17 +176,69 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named big_integer
+# Target rules for targets named big_integer_lib
 
 # Build rule for target.
-big_integer: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 big_integer
-.PHONY : big_integer
+big_integer_lib: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 big_integer_lib
+.PHONY : big_integer_lib
 
 # fast build rule for target.
-big_integer/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/big_integer.dir/build.make CMakeFiles/big_integer.dir/build
-.PHONY : big_integer/fast
+big_integer_lib/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/big_integer_lib.dir/build.make CMakeFiles/big_integer_lib.dir/build
+.PHONY : big_integer_lib/fast
+
+#=============================================================================
+# Target rules for targets named gmock
+
+# Build rule for target.
+gmock: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 gmock
+.PHONY : gmock
+
+# fast build rule for target.
+gmock/fast:
+	$(MAKE) $(MAKESILENT) -f _deps/googletest-build/googlemock/CMakeFiles/gmock.dir/build.make _deps/googletest-build/googlemock/CMakeFiles/gmock.dir/build
+.PHONY : gmock/fast
+
+#=============================================================================
+# Target rules for targets named gmock_main
+
+# Build rule for target.
+gmock_main: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 gmock_main
+.PHONY : gmock_main
+
+# fast build rule for target.
+gmock_main/fast:
+	$(MAKE) $(MAKESILENT) -f _deps/googletest-build/googlemock/CMakeFiles/gmock_main.dir/build.make _deps/googletest-build/googlemock/CMakeFiles/gmock_main.dir/build
+.PHONY : gmock_main/fast
+
+#=============================================================================
+# Target rules for targets named gtest_main
+
+# Build rule for target.
+gtest_main: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 gtest_main
+.PHONY : gtest_main
+
+# fast build rule for target.
+gtest_main/fast:
+	$(MAKE) $(MAKESILENT) -f _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/build.make _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/build
+.PHONY : gtest_main/fast
+
+#=============================================================================
+# Target rules for targets named gtest
+
+# Build rule for target.
+gtest: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 gtest
+.PHONY : gtest
+
+# fast build rule for target.
+gtest/fast:
+	$(MAKE) $(MAKESILENT) -f _deps/googletest-build/googletest/CMakeFiles/gtest.dir/build.make _deps/googletest-build/googletest/CMakeFiles/gtest.dir/build
+.PHONY : gtest/fast
 
 big_integer_lib/big_int.o: big_integer_lib/big_int.cpp.o
 
@@ -148,7 +246,7 @@ big_integer_lib/big_int.o: big_integer_lib/big_int.cpp.o
 
 # target to build an object file
 big_integer_lib/big_int.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/big_integer.dir/build.make CMakeFiles/big_integer.dir/big_integer_lib/big_int.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/big_integer_lib.dir/build.make CMakeFiles/big_integer_lib.dir/big_integer_lib/big_int.cpp.o
 .PHONY : big_integer_lib/big_int.cpp.o
 
 big_integer_lib/big_int.i: big_integer_lib/big_int.cpp.i
@@ -157,7 +255,7 @@ big_integer_lib/big_int.i: big_integer_lib/big_int.cpp.i
 
 # target to preprocess a source file
 big_integer_lib/big_int.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/big_integer.dir/build.make CMakeFiles/big_integer.dir/big_integer_lib/big_int.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/big_integer_lib.dir/build.make CMakeFiles/big_integer_lib.dir/big_integer_lib/big_int.cpp.i
 .PHONY : big_integer_lib/big_int.cpp.i
 
 big_integer_lib/big_int.s: big_integer_lib/big_int.cpp.s
@@ -166,8 +264,35 @@ big_integer_lib/big_int.s: big_integer_lib/big_int.cpp.s
 
 # target to generate assembly for a file
 big_integer_lib/big_int.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/big_integer.dir/build.make CMakeFiles/big_integer.dir/big_integer_lib/big_int.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/big_integer_lib.dir/build.make CMakeFiles/big_integer_lib.dir/big_integer_lib/big_int.cpp.s
 .PHONY : big_integer_lib/big_int.cpp.s
+
+main.o: main.cpp.o
+
+.PHONY : main.o
+
+# target to build an object file
+main.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/big_integer_lib.dir/build.make CMakeFiles/big_integer_lib.dir/main.cpp.o
+.PHONY : main.cpp.o
+
+main.i: main.cpp.i
+
+.PHONY : main.i
+
+# target to preprocess a source file
+main.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/big_integer_lib.dir/build.make CMakeFiles/big_integer_lib.dir/main.cpp.i
+.PHONY : main.cpp.i
+
+main.s: main.cpp.s
+
+.PHONY : main.s
+
+# target to generate assembly for a file
+main.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/big_integer_lib.dir/build.make CMakeFiles/big_integer_lib.dir/main.cpp.s
+.PHONY : main.cpp.s
 
 tests.o: tests.cpp.o
 
@@ -175,7 +300,7 @@ tests.o: tests.cpp.o
 
 # target to build an object file
 tests.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/big_integer.dir/build.make CMakeFiles/big_integer.dir/tests.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/big_integer_lib.dir/build.make CMakeFiles/big_integer_lib.dir/tests.cpp.o
 .PHONY : tests.cpp.o
 
 tests.i: tests.cpp.i
@@ -184,7 +309,7 @@ tests.i: tests.cpp.i
 
 # target to preprocess a source file
 tests.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/big_integer.dir/build.make CMakeFiles/big_integer.dir/tests.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/big_integer_lib.dir/build.make CMakeFiles/big_integer_lib.dir/tests.cpp.i
 .PHONY : tests.cpp.i
 
 tests.s: tests.cpp.s
@@ -193,7 +318,7 @@ tests.s: tests.cpp.s
 
 # target to generate assembly for a file
 tests.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/big_integer.dir/build.make CMakeFiles/big_integer.dir/tests.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/big_integer_lib.dir/build.make CMakeFiles/big_integer_lib.dir/tests.cpp.s
 .PHONY : tests.cpp.s
 
 # Help Target
@@ -203,11 +328,22 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... edit_cache"
+	@echo "... install"
+	@echo "... install/local"
+	@echo "... install/strip"
+	@echo "... list_install_components"
 	@echo "... rebuild_cache"
-	@echo "... big_integer"
+	@echo "... big_integer_lib"
+	@echo "... gmock"
+	@echo "... gmock_main"
+	@echo "... gtest"
+	@echo "... gtest_main"
 	@echo "... big_integer_lib/big_int.o"
 	@echo "... big_integer_lib/big_int.i"
 	@echo "... big_integer_lib/big_int.s"
+	@echo "... main.o"
+	@echo "... main.i"
+	@echo "... main.s"
 	@echo "... tests.o"
 	@echo "... tests.i"
 	@echo "... tests.s"

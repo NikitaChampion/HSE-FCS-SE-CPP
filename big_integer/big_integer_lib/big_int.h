@@ -1,5 +1,6 @@
 #include <string>
 #include <vector>
+#include <utility>
 #include <type_traits>
 
 class BigInt {
@@ -25,18 +26,36 @@ public:
     // Arithmetic-assignment operators:
     BigInt& operator+=(const BigInt&);
     BigInt& operator-=(const BigInt&);
+    BigInt& operator*=(const BigInt&);
+    BigInt& operator/=(const BigInt&);
+    BigInt& operator%=(const BigInt&);
     BigInt& operator+=(const std::string&);
     BigInt& operator-=(const std::string&);
+    BigInt& operator*=(const std::string&);
+    BigInt& operator/=(const std::string&);
+    BigInt& operator%=(const std::string&);
     BigInt& operator+=(int64_t);
     BigInt& operator-=(int64_t);
+    BigInt& operator*=(int64_t);
+    BigInt& operator/=(int64_t);
+    BigInt& operator%=(int64_t);
 
     // Binary arithmetic operators:
     BigInt operator+(const BigInt&) const;
     BigInt operator-(const BigInt&) const;
+    BigInt operator*(const BigInt&) const;
+    BigInt operator/(const BigInt&) const;
+    BigInt operator%(const BigInt&) const;
     BigInt operator+(const std::string&) const;
     BigInt operator-(const std::string&) const;
+    BigInt operator*(const std::string&) const;
+    BigInt operator/(const std::string&) const;
+    BigInt operator%(const std::string&) const;
     BigInt operator+(int64_t) const;
     BigInt operator-(int64_t) const;
+    BigInt operator*(int64_t) const;
+    BigInt operator/(int64_t) const;
+    BigInt operator%(int64_t) const;
 
     // Increment and decrement operators:
     BigInt& operator++();    // pre-increment
@@ -70,13 +89,14 @@ public:
     friend std::ostream& operator<<(std::ostream&, const BigInt&);
 
     // Math functions:
-    BigInt abs() const;  // NOLINT
+    BigInt abs() const;                                                     // NOLINT
+    friend std::pair<BigInt, BigInt> divmod(const BigInt&, const BigInt&);  // NOLINT
 
     // Conversion functions:
-    static std::string to_string(const BigInt& number);  // NOLINT
-    static int to_int(const BigInt& number);             // NOLINT
-    static int64_t to_int64_t(const BigInt& number);     // NOLINT
-    static uint64_t to_uint64_t(const BigInt& number);   // NOLINT
+    static std::string to_string(const BigInt&);  // NOLINT
+    static int to_int(const BigInt&);             // NOLINT
+    static int64_t to_int64_t(const BigInt&);     // NOLINT
+    static uint64_t to_uint64_t(const BigInt&);   // NOLINT
 
 private:
     static const int kBase = 1000000000;
@@ -90,4 +110,7 @@ private:
     bool IsValidNumber(const std::string&);
     void Convert(const std::string&);
     void Trim();
+    static std::vector<int> ConvertBase(const std::vector<int>&, int, int);
+    static std::vector<int64_t> KaratsubaMultiply(const std::vector<int64_t>&,
+                                                  const std::vector<int64_t>&);
 };

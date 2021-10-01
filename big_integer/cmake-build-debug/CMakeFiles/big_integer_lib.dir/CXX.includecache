@@ -6,21 +6,27 @@
 
 #IncludeRegexTransform: 
 
+/Users/nikitaigumnov/CLionProjects/big_integer/big_integer_lib/big_int.cpp
+big_int.h
+/Users/nikitaigumnov/CLionProjects/big_integer/big_integer_lib/big_int.h
+stdexcept
+-
+algorithm
+-
+cmath
+-
+iomanip
+-
+sstream
+-
+
 /Users/nikitaigumnov/CLionProjects/big_integer/big_integer_lib/big_int.h
 string
 -
 vector
 -
+utility
+-
 type_traits
 -
-
-/Users/nikitaigumnov/CLionProjects/big_integer/tests.cpp
-iostream
--
-cassert
--
-limits
--
-big_integer_lib/big_int.h
-/Users/nikitaigumnov/CLionProjects/big_integer/big_integer_lib/big_int.h
 

@@ -1,6 +1,7 @@
 #include "big_int.h"
 #include <stdexcept>
 #include <algorithm>
+#include <cmath>
 #include <iomanip>
 #include <sstream>
 
@@ -56,10 +57,116 @@ void BigInt::Read(const std::string& str) {
     Trim();
 }
 
+std::vector<int> BigInt::ConvertBase(const std::vector<int>& digits, int old_digits,
+                                     int new_digits) {
+    std::vector<int64_t> p(std::max(old_digits, new_digits) + 1);
+    p[0] = 1;
+    for (int i = 1; i < static_cast<int>(p.size()); ++i) {
+        p[i] = p[i - 1] * 10;
+    }
+    std::vector<int> result;
+    int64_t current = 0;
+    int cur_digits = 0;
+    for (int digit : digits) {
+        current += digit * p[cur_digits];
+        cur_digits += old_digits;
+        while (cur_digits >= new_digits) {
+            result.push_back(static_cast<int>(current % p[new_digits]));
+            current /= p[new_digits];
+            cur_digits -= new_digits;
+        }
+    }
+    result.push_back(static_cast<int>(current));
+    while (!result.empty() && !result.back()) {
+        result.pop_back();
+    }
+    return result;
+}
+
+std::vector<int64_t> BigInt::KaratsubaMultiply(const std::vector<int64_t>& a,
+                                               const std::vector<int64_t>& b) {
+    int n = a.size();
+    std::vector<int64_t> res(n + n);
+    if (n <= 32) {
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+                res[i + j] += a[i] * b[j];
+            }
+        }
+        return res;
+    }
+
+    int k = n >> 1;
+    std::vector<int64_t> a1(a.begin(), a.begin() + k);
+    std::vector<int64_t> a2(a.begin() + k, a.end());
+    std::vector<int64_t> b1(b.begin(), b.begin() + k);
+    std::vector<int64_t> b2(b.begin() + k, b.end());
+
+    std::vector<int64_t> a1b1 = KaratsubaMultiply(a1, b1);
+    std::vector<int64_t> a2b2 = KaratsubaMultiply(a2, b2);
+
+    for (int i = 0; i < k; ++i) {
+        a2[i] += a1[i];
+    }
+    for (int i = 0; i < k; ++i) {
+        b2[i] += b1[i];
+    }
+
+    std::vector<int64_t> r = KaratsubaMultiply(a2, b2);
+    for (int i = 0; i < static_cast<int>(a1b1.size()); ++i) {
+        r[i] -= a1b1[i];
+    }
+    for (int i = 0; i < static_cast<int>(a2b2.size()); ++i) {
+        r[i] -= a2b2[i];
+    }
+
+    for (int i = 0; i < static_cast<int>(r.size()); ++i) {
+        res[i + k] += r[i];
+    }
+    for (int i = 0; i < static_cast<int>(a1b1.size()); ++i) {
+        res[i] += a1b1[i];
+    }
+    for (int i = 0; i < static_cast<int>(a2b2.size()); ++i) {
+        res[i + n] += a2b2[i];
+    }
+    return res;
+}
+
 BigInt BigInt::abs() const {
     BigInt result = *this;
     result.sign_ = 1;
     return result;
+}
+
+std::pair<BigInt, BigInt> divmod(const BigInt &a1, const BigInt &b1) {
+    if (a1.digits_.empty()) {
+        return {0, 0};
+    }
+    int norm = a1.kBase / (b1.digits_.back() + 1);
+    BigInt a = a1.abs() * norm;
+    BigInt b = b1.abs() * norm;
+    BigInt q, r = 0;
+    q.digits_.resize(a.digits_.size());
+
+    for (int i = static_cast<int>(a.digits_.size()) - 1; i >= 0; --i) {
+        r *= a1.kBase;
+        r += a.digits_[i];
+        int s1 = r.digits_.size() <= b.digits_.size() ? 0 : r.digits_[b.digits_.size()];
+        int s2 = r.digits_.size() <= b.digits_.size() - 1 ? 0 : r.digits_[b.digits_.size() - 1];
+        int d = (static_cast<int64_t>(a1.kBase) * s1 + s2) / b.digits_.back();
+        r -= b * d;
+        while (r < 0) {
+            r += b;
+            --d;
+        }
+        q.digits_[i] = d;
+    }
+
+    q.sign_ = a1.sign_ * b1.sign_;
+    r.sign_ = a1.sign_;
+    q.Trim();
+    r.Trim();
+    return std::make_pair(q, r / norm);
 }
 
 /*
@@ -155,6 +262,18 @@ BigInt& BigInt::operator-=(const BigInt& value) {
     return *this = (*this - value);
 }
 
+BigInt& BigInt::operator*=(const BigInt& value) {
+    return *this = (*this * value);
+}
+
+BigInt& BigInt::operator/=(const BigInt& value) {
+    return *this = (*this / value);
+}
+
+BigInt& BigInt::operator%=(const BigInt& value) {
+    return *this = (*this % value);
+}
+
 BigInt& BigInt::operator+=(const std::string& value) {
     return *this = (*this + BigInt(value));
 }
@@ -163,12 +282,36 @@ BigInt& BigInt::operator-=(const std::string& value) {
     return *this = (*this - BigInt(value));
 }
 
+BigInt& BigInt::operator*=(const std::string& value) {
+    return *this = (*this * BigInt(value));
+}
+
+BigInt& BigInt::operator/=(const std::string& value) {
+    return *this = (*this / BigInt(value));
+}
+
+BigInt& BigInt::operator%=(const std::string& value) {
+    return *this = (*this % BigInt(value));
+}
+
 BigInt& BigInt::operator+=(int64_t value) {
     return *this = (*this + BigInt(value));
 }
 
 BigInt& BigInt::operator-=(int64_t value) {
     return *this = (*this - BigInt(value));
+}
+
+BigInt& BigInt::operator*=(int64_t value) {
+    return *this = (*this * BigInt(value));
+}
+
+BigInt& BigInt::operator/=(int64_t value) {
+    return *this = (*this / BigInt(value));
+}
+
+BigInt& BigInt::operator%=(int64_t value) {
+    return *this = (*this % BigInt(value));
 }
 
 /*
@@ -214,119 +357,204 @@ BigInt BigInt::operator-(const BigInt& number) const {
     return -(number - *this);
 }
 
-BigInt BigInt::operator+(const std::string& number) const {
-    return *this + BigInt(number);
+BigInt BigInt::operator*(const BigInt& number) const {
+    std::vector<int> a6 = ConvertBase(digits_, kBaseDigits, 6);
+    std::vector<int> b6 = ConvertBase(number.digits_, kBaseDigits, 6);
+    std::vector<int64_t> a(a6.begin(), a6.end());
+    std::vector<int64_t> b(b6.begin(), b6.end());
+    while (a.size() < b.size()) {
+        a.push_back(0);
+    }
+    while (b.size() < a.size()) {
+        b.push_back(0);
+    }
+    while (a.size() & (a.size() - 1)) {
+        a.push_back(0);
+        b.push_back(0);
+    }
+    std::vector<int64_t> multiply = KaratsubaMultiply(a, b);
+    BigInt result;
+    result.sign_ = sign_ * number.sign_;
+    int carry = 0;
+    for (int64_t multiply_digit : multiply) {
+        int64_t cur = multiply_digit + carry;
+        result.digits_.push_back(static_cast<int>(cur % 1000000));
+        carry = static_cast<int>(cur / 1000000);
+    }
+    result.digits_ = ConvertBase(result.digits_, 6, kBaseDigits);
+    result.Trim();
+    return result;
+}
+
+BigInt BigInt::operator/(const BigInt& rhs) const {
+    return divmod(*this, rhs).first;
+}
+
+BigInt BigInt::operator%(const BigInt& rhs) const {
+    return divmod(*this, rhs).second;
+}
+
+BigInt BigInt::operator+(const std::string& rhs) const {
+    return *this + BigInt(rhs);
 }
 
 BigInt operator+(const std::string& lhs, const BigInt& rhs) {
     return BigInt(lhs) + rhs;
 }
 
-BigInt BigInt::operator-(const std::string& num) const {
-    return *this - BigInt(num);
+BigInt BigInt::operator-(const std::string& rhs) const {
+    return *this - BigInt(rhs);
 }
 
 BigInt operator-(const std::string& lhs, const BigInt& rhs) {
     return BigInt(lhs) - rhs;
 }
 
-BigInt BigInt::operator+(int64_t number) const {
-    return *this + BigInt(number);
+BigInt BigInt::operator*(const std::string& rhs) const {
+    return *this - BigInt(rhs);
+}
+
+BigInt operator*(const std::string& lhs, const BigInt& rhs) {
+    return BigInt(lhs) * rhs;
+}
+
+BigInt BigInt::operator/(const std::string& rhs) const {
+    return *this / BigInt(rhs);
+}
+
+BigInt operator/(const std::string& lhs, const BigInt& rhs) {
+    return BigInt(lhs) / rhs;
+}
+
+BigInt BigInt::operator%(const std::string& rhs) const {
+    return *this % BigInt(rhs);
+}
+
+BigInt operator%(const std::string& lhs, const BigInt& rhs) {
+    return BigInt(lhs) % rhs;
+}
+
+BigInt BigInt::operator+(int64_t rhs) const {
+    return *this + BigInt(rhs);
 }
 
 BigInt operator+(int64_t lhs, const BigInt& rhs) {
     return BigInt(lhs) + rhs;
 }
 
-BigInt BigInt::operator-(int64_t number) const {
-    return *this - BigInt(number);
+BigInt BigInt::operator-(int64_t rhs) const {
+    return *this - BigInt(rhs);
 }
 
 BigInt operator-(int64_t lhs, const BigInt& rhs) {
     return BigInt(lhs) - rhs;
 }
 
+BigInt BigInt::operator*(int64_t rhs) const {
+    return *this * BigInt(rhs);
+}
+
+BigInt operator*(int64_t lhs, const BigInt& rhs) {
+    return BigInt(lhs) * rhs;
+}
+
+BigInt BigInt::operator/(int64_t rhs) const {
+    return *this / BigInt(rhs);
+}
+
+BigInt operator/(int64_t lhs, const BigInt& rhs) {
+    return BigInt(lhs) / rhs;
+}
+
+BigInt BigInt::operator%(int64_t rhs) const {
+    return *this % BigInt(rhs);
+}
+
+BigInt operator%(int64_t lhs, const BigInt& rhs) {
+    return BigInt(lhs) % rhs;
+}
+
 /*
     Relational operators; All operators depend on the '<' operator.
 */
 
-bool BigInt::operator<(const BigInt& number) const {
-    if (sign_ != number.sign_) {
+bool BigInt::operator<(const BigInt& rhs) const {
+    if (sign_ != rhs.sign_) {
         return sign_ == -1;
     }
-    if (digits_.size() != number.digits_.size()) {
-        return digits_.size() * sign_ < number.digits_.size() * sign_;
+    if (digits_.size() != rhs.digits_.size()) {
+        return digits_.size() * sign_ < rhs.digits_.size() * sign_;
     }
     for (int i = digits_.size() - 1; i >= 0; --i) {
-        if (digits_[i] != number.digits_[i]) {
-            return digits_[i] * sign_ < number.digits_[i] * sign_;
+        if (digits_[i] != rhs.digits_[i]) {
+            return digits_[i] * sign_ < rhs.digits_[i] * sign_;
         }
     }
     return false;
 }
 
-bool BigInt::operator>(const BigInt& number) const {
-    return number < *this;
+bool BigInt::operator>(const BigInt& rhs) const {
+    return rhs < *this;
 }
 
-bool BigInt::operator<=(const BigInt& number) const {
-    return !(number < *this);
+bool BigInt::operator<=(const BigInt& rhs) const {
+    return !(rhs < *this);
 }
 
-bool BigInt::operator>=(const BigInt& number) const {
-    return !(*this < number);
+bool BigInt::operator>=(const BigInt& rhs) const {
+    return !(*this < rhs);
 }
 
-bool BigInt::operator==(const BigInt& number) const {
-    return !(*this < number) && !(number < *this);
+bool BigInt::operator==(const BigInt& rhs) const {
+    return !(*this < rhs) && !(rhs < *this);
 }
 
-bool BigInt::operator!=(const BigInt& number) const {
-    return *this < number || number < *this;
+bool BigInt::operator!=(const BigInt& rhs) const {
+    return *this < rhs || rhs < *this;
 }
 
-bool BigInt::operator<(int64_t number) const {
-    return *this < BigInt(number);
+bool BigInt::operator<(int64_t rhs) const {
+    return *this < BigInt(rhs);
 }
 
 bool operator<(int64_t lhs, const BigInt& rhs) {
     return BigInt(lhs) < rhs;
 }
 
-bool BigInt::operator>(int64_t number) const {
-    return *this > BigInt(number);
+bool BigInt::operator>(int64_t rhs) const {
+    return *this > BigInt(rhs);
 }
 
 bool operator>(int64_t lhs, const BigInt& rhs) {
     return BigInt(lhs) > rhs;
 }
 
-bool BigInt::operator<=(int64_t number) const {
-    return *this <= BigInt(number);
+bool BigInt::operator<=(int64_t rhs) const {
+    return *this <= BigInt(rhs);
 }
 
 bool operator<=(int64_t lhs, const BigInt& rhs) {
     return BigInt(lhs) <= rhs;
 }
 
-bool BigInt::operator>=(int64_t number) const {
-    return *this >= BigInt(number);
+bool BigInt::operator>=(int64_t rhs) const {
+    return *this >= BigInt(rhs);
 }
 
 bool operator>=(int64_t lhs, const BigInt& rhs) {
     return BigInt(lhs) >= rhs;
 }
 
-bool BigInt::operator==(int64_t number) const {
-    return *this == BigInt(number);
+bool BigInt::operator==(int64_t rhs) const {
+    return *this == BigInt(rhs);
 }
 
 bool operator==(int64_t lhs, const BigInt& rhs) {
     return BigInt(lhs) == rhs;
 }
 
-bool BigInt::operator!=(int64_t number) const {
-    return *this != BigInt(number);
+bool BigInt::operator!=(int64_t rhs) const {
+    return *this != BigInt(rhs);
 }
 
 bool operator!=(int64_t lhs, const BigInt& rhs) {
