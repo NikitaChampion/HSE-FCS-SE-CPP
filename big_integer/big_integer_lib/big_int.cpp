@@ -9,7 +9,7 @@
     Utility functions
 */
 
-bool BigInt::IsValidNumber(const std::string& number) {
+bool BigInt::isValidNumber(const std::string& number) {
     for (char digit : number) {
         if (digit < '0' || digit > '9') {
             return false;
@@ -18,7 +18,7 @@ bool BigInt::IsValidNumber(const std::string& number) {
     return true;
 }
 
-void BigInt::Convert(const std::string& str) {
+void BigInt::convert(const std::string& str) {
     for (int i = str.size() - 1; i >= 0; i -= kBaseDigits) {
         int current = 0;
         for (int j = std::max(0, i - kBaseDigits + 1); j <= i; ++j) {
@@ -28,7 +28,7 @@ void BigInt::Convert(const std::string& str) {
     }
 }
 
-void BigInt::Trim() {
+void BigInt::trim() {
     while (!digits_.empty() && !digits_.back()) {
         digits_.pop_back();
     }
@@ -37,27 +37,27 @@ void BigInt::Trim() {
     }
 }
 
-void BigInt::Read(const std::string& str) {
+void BigInt::read(const std::string& str) {
     if (str.empty()) {
         sign_ = 1;
     } else if (str[0] == '+' || str[0] == '-') {
         std::string magnitude = str.substr(1);
-        if (IsValidNumber(magnitude)) {
+        if (isValidNumber(magnitude)) {
             sign_ = (str[0] == '+' ? 1 : -1);
-            Convert(magnitude);
+            convert(magnitude);
         } else {
             throw std::invalid_argument("Expected an integer, got \'" + str + "\'");
         }
-    } else if (IsValidNumber(str)) {
+    } else if (isValidNumber(str)) {
         sign_ = 1;
-        Convert(str);
+        convert(str);
     } else {
         throw std::invalid_argument("Expected an integer, got \'" + str + "\'");
     }
-    Trim();
+    trim();
 }
 
-std::vector<int> BigInt::ConvertBase(const std::vector<int>& digits, int old_digits,
+std::vector<int> BigInt::convertBase(const std::vector<int>& digits, int old_digits,
                                      int new_digits) {
     std::vector<int64_t> p(std::max(old_digits, new_digits) + 1);
     p[0] = 1;
@@ -83,7 +83,7 @@ std::vector<int> BigInt::ConvertBase(const std::vector<int>& digits, int old_dig
     return result;
 }
 
-std::vector<int64_t> BigInt::KaratsubaMultiply(const std::vector<int64_t>& a,
+std::vector<int64_t> BigInt::karatsubaMultiply(const std::vector<int64_t>& a,
                                                const std::vector<int64_t>& b) {
     int n = a.size();
     std::vector<int64_t> res(n + n);
@@ -102,8 +102,8 @@ std::vector<int64_t> BigInt::KaratsubaMultiply(const std::vector<int64_t>& a,
     std::vector<int64_t> b1(b.begin(), b.begin() + k);
     std::vector<int64_t> b2(b.begin() + k, b.end());
 
-    std::vector<int64_t> a1b1 = KaratsubaMultiply(a1, b1);
-    std::vector<int64_t> a2b2 = KaratsubaMultiply(a2, b2);
+    std::vector<int64_t> a1b1 = karatsubaMultiply(a1, b1);
+    std::vector<int64_t> a2b2 = karatsubaMultiply(a2, b2);
 
     for (int i = 0; i < k; ++i) {
         a2[i] += a1[i];
@@ -112,7 +112,7 @@ std::vector<int64_t> BigInt::KaratsubaMultiply(const std::vector<int64_t>& a,
         b2[i] += b1[i];
     }
 
-    std::vector<int64_t> r = KaratsubaMultiply(a2, b2);
+    std::vector<int64_t> r = karatsubaMultiply(a2, b2);
     for (int i = 0; i < static_cast<int>(a1b1.size()); ++i) {
         r[i] -= a1b1[i];
     }
@@ -138,7 +138,7 @@ BigInt BigInt::abs() const {
     return result;
 }
 
-std::pair<BigInt, BigInt> divmod(const BigInt &a1, const BigInt &b1) {
+std::pair<BigInt, BigInt> divmod(const BigInt& a1, const BigInt& b1) {
     if (a1.digits_.empty()) {
         return {0, 0};
     }
@@ -164,8 +164,8 @@ std::pair<BigInt, BigInt> divmod(const BigInt &a1, const BigInt &b1) {
 
     q.sign_ = a1.sign_ * b1.sign_;
     r.sign_ = a1.sign_;
-    q.Trim();
-    r.Trim();
+    q.trim();
+    r.trim();
     return std::make_pair(q, r / norm);
 }
 
@@ -180,7 +180,7 @@ BigInt::BigInt(const BigInt& number) : sign_(number.sign_), digits_(number.digit
 }
 
 BigInt::BigInt(const std::string& str) {
-    Read(str);
+    read(str);
 }
 
 BigInt::BigInt(int number) {
@@ -351,15 +351,15 @@ BigInt BigInt::operator-(const BigInt& number) const {
                 result.digits_[i] += kBase;
             }
         }
-        result.Trim();
+        result.trim();
         return result;
     }
     return -(number - *this);
 }
 
 BigInt BigInt::operator*(const BigInt& number) const {
-    std::vector<int> a6 = ConvertBase(digits_, kBaseDigits, 6);
-    std::vector<int> b6 = ConvertBase(number.digits_, kBaseDigits, 6);
+    std::vector<int> a6 = convertBase(digits_, kBaseDigits, 6);
+    std::vector<int> b6 = convertBase(number.digits_, kBaseDigits, 6);
     std::vector<int64_t> a(a6.begin(), a6.end());
     std::vector<int64_t> b(b6.begin(), b6.end());
     while (a.size() < b.size()) {
@@ -372,7 +372,7 @@ BigInt BigInt::operator*(const BigInt& number) const {
         a.push_back(0);
         b.push_back(0);
     }
-    std::vector<int64_t> multiply = KaratsubaMultiply(a, b);
+    std::vector<int64_t> multiply = karatsubaMultiply(a, b);
     BigInt result;
     result.sign_ = sign_ * number.sign_;
     int carry = 0;
@@ -381,8 +381,8 @@ BigInt BigInt::operator*(const BigInt& number) const {
         result.digits_.push_back(static_cast<int>(cur % 1000000));
         carry = static_cast<int>(cur / 1000000);
     }
-    result.digits_ = ConvertBase(result.digits_, 6, kBaseDigits);
-    result.Trim();
+    result.digits_ = convertBase(result.digits_, 6, kBaseDigits);
+    result.trim();
     return result;
 }
 
@@ -567,7 +567,7 @@ bool operator!=(int64_t lhs, const BigInt& rhs) {
 std::istream& operator>>(std::istream& in, BigInt& number) {
     std::string input;
     in >> input;
-    number.Read(input);
+    number.read(input);
     return in;
 }
 

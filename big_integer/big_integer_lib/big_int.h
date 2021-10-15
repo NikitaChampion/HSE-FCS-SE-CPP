@@ -106,11 +106,11 @@ private:
     std::vector<int> digits_;
 
     // Utility functions:
-    void Read(const std::string&);
-    bool IsValidNumber(const std::string&);
-    void Convert(const std::string&);
-    void Trim();
-    static std::vector<int> ConvertBase(const std::vector<int>&, int, int);
-    static std::vector<int64_t> KaratsubaMultiply(const std::vector<int64_t>&,
+    void read(const std::string&);
+    bool isValidNumber(const std::string&);
+    void convert(const std::string&);
+    void trim();
+    static std::vector<int> convertBase(const std::vector<int>&, int, int);
+    static std::vector<int64_t> karatsubaMultiply(const std::vector<int64_t>&,
                                                   const std::vector<int64_t>&);
 };
