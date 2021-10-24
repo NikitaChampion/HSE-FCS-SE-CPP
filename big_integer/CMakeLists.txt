@@ -1,4 +1,5 @@
-cmake_minimum_required(VERSION 3.19)
+# cmake_minimum_required(VERSION 3.19)
+cmake_minimum_required(VERSION 3.13)
 project(big_integer)
 
 find_package(GTest CONFIG REQUIRED)
